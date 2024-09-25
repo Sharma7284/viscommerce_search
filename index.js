@@ -23,7 +23,7 @@ app.get(`/search`, async (req, res, next) => {
         .from(`website_data`)
         .select(`scrap_data`);
 
-      if (data) {
+      if (data && data.length) {
         let miniSearch = new MiniSearch({
           fields: ["title", "href"],
           storeFields: ["title", "href"],
@@ -37,9 +37,17 @@ app.get(`/search`, async (req, res, next) => {
         } else {
           res.json({ success: false, message: `Result not found.` });
         }
+      } else {
+        res.json({
+          success: false,
+          message: `Data not found`,
+        });
       }
     } else {
-      res.json(`SearchText is required.`);
+      res.json({
+        success: false,
+        message: `SearchText is required.`,
+      });
     }
   } catch (error) {
     res.send(error?.message || error || `Internal server`);

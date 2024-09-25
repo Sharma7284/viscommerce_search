@@ -26,8 +26,8 @@ app.get(`/search`, async (req, res, next) => {
 
       if (data && data.length) {
         let miniSearch = new MiniSearch({
-          fields: ["title", "href"],
-          storeFields: ["title", "href"],
+          fields: ["title", "href", "route"],
+          storeFields: ["title", "href", "route"],
         });
 
         miniSearch.addAll(data[0].scrap_data);

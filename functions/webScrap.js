@@ -12,10 +12,11 @@ async function scrap_website(url) {
       await page.goto(url);
       const content = await page.content();
       const $ = cheerio.load(content);
+      await page.close()
 
       const data = [];
 
-      $("a").each((i, el) => {
+      $("p").each((i, el) => {
         const label = $(el).text();
         const route = url;
         const id = uuidv4();

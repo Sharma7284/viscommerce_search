@@ -5,6 +5,7 @@ const MiniSearch = require("minisearch");
 const supabase = require("./config/db");
 const cors = require(`cors`);
 const { EmailService } = require("./services/sendMail");
+const scrap_website = require("./functions/webScrap");
 
 app.use(cors());
 app.use(express.json());
@@ -192,6 +193,32 @@ app.post(`/users`, async (req, res, next) => {
       success: false,
       message: error?.message || error || `Internal server error`,
     });
+  }
+});
+
+app.post(`/update-search`, async (req, res, next) => {
+  try {
+    const { urls } = req.body;
+
+    let result = [];
+
+    var i = 1;
+    for (const item of urls) {
+      console.log(`Total : ${urls.length}, Done : ${i + 1}`);
+      const response = await scrap_website(item);
+      result.push(response);
+    }
+
+    if (result.length > 0) {
+      const { data, error } = await supabase
+        .from(`website_data`)
+        .update({ scrap_data: result.flat(Infinity) });
+      res.json({ message: `update`, data : result.flat(Infinity) });
+    } else {
+      res.json({ message: `failed` });
+    }
+  } catch (error) {
+    console.log(error);
   }
 });
 

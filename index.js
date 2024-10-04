@@ -71,6 +71,12 @@ app.post(`/subscribe`, async (req, res, next) => {
 
     console.log(data);
 
+    const mailInfo = await EmailService.sendEmail(
+      email,
+      `Subscribe : Thank you :)`,
+      `<p>Thank You</p><br/><a href="https://gandivam.co.in/website?unsubscribe=${email}" target="_blank">Unsubscribe</a>`
+    );
+
     if (data) {
       res.status(500).json({
         success: false,
@@ -213,7 +219,7 @@ app.post(`/update-search`, async (req, res, next) => {
       const { data, error } = await supabase
         .from(`website_data`)
         .update({ scrap_data: result.flat(Infinity) });
-      res.json({ message: `update`, data : result.flat(Infinity) });
+      res.json({ message: `update`, data: result.flat(Infinity) });
     } else {
       res.json({ message: `failed` });
     }

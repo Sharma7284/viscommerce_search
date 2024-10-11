@@ -12,7 +12,7 @@ module.exports.EmailService = {
       });
 
       const mailOptions = {
-        from: `'Wholesome By WH' <${process.env.EMAIL_USER}>`,
+        from: `'VisCommerce' <${process.env.EMAIL_USER}>`,
         to,
         subject,
         html: template,

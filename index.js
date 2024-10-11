@@ -94,7 +94,7 @@ app.post(`/subscribe`, async (req, res, next) => {
         res.status(200).json({
           success: true,
           data,
-          message: `Subscribe has been successfully.`,
+          message: `${email} subscribe has been successfully.`,
         });
       } else {
         res.status(500).json({
